@@ -1,0 +1,41 @@
+body {
+    background-color: rgb(36,50,54);
+}
+
+.ContainerAlt {
+    padding-top: 15px;
+    height: 521.25px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    /* background-color: rgb(36,50,54); */
+}
+
+.intText {
+    width: 350px;
+    padding-top: 10px;
+    padding-left: 15px;
+    /* background-color: #013220; */
+    color: whitesmoke;
+}
+
+.board {
+    width: 391.25px;
+    height: 521.25px;
+}
+
+.firstItem {
+    padding: 30px
+}
+
+.buttonHere {
+    background-color: rgb(254,97,72);
+}
+
+.text1 {
+    color: rgb(212, 205, 188);
+    font-family: 'Source Serif Pro', serif;
+    font-size: 60px;
+    padding-bottom: 15px;
+}
+

@@ -1,0 +1,50 @@
+body {
+    background-color: rgb(28, 25, 28)
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    padding-top: 950px;
+}
+
+.block1 {
+    padding-top: 100px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.item1 {
+    padding-right: 50px;
+    width: 300px;
+}
+
+.sect1 {
+padding-bottom: 20px;
+}
+
+.block2 {
+    display: flex;
+    justify-content: center;
+    padding-top: 100px;
+}
+
+#youngMe {
+    width: 382px;
+    height: 560px;
+}
+
+.block3 {
+    display: flex;
+    justify-content: center;
+    padding-top: 100px;
+}
+
+.block4 {
+    display: flex;
+    justify-content: center;
+    padding-top: 100px;
+}
+
+
