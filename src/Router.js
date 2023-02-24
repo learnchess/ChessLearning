@@ -13,12 +13,12 @@ function Router() {
         <div>
         <Appbar />
         <Routes>
-            <Route path="/" element={<AltWelcomePage />}/>
+            <Route path="/" element={<WelcomePage />}/>
             <Route path="/test" element={<Test />} />
             <Route path="/mateinone" element={<MateInOne />} />
             <Route path="/schedule" element={<Schedule /> } />
             <Route path="/about" element={<About />} />
-            <Route path="/altWelcome" element={<WelcomePage />} />
+            <Route path="/altWelcome" element={<AltWelcomePage />} />
         </Routes>
         </div>
     )

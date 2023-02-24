@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import './Test.css'
 import {Button, Typography} from '@mui/material'
-import "./MateInOne.css";
 import Chessground from "@react-chess/chessground";
 import "chessground/assets/chessground.base.css";
 import "chessground/assets/chessground.brown.css";
@@ -121,15 +120,17 @@ function Test() {
         numCorrect++;
         }
         if(numCorrect===0) {
-          
+          level[1][0] = 0;
         }
         else if(numCorrect===1 || numCorrect===2 ) {
-          level[0][0] = 1;
+          level[1][0] = 1;
          }
          else if(numCorrect===3) {
-          level[0][0] = 2;
+          level[1][0] = 2;
          }
          setShowMateInOne(false);
+         setShowNewPlayer(true);
+         console.log(level[0] + ' ' + level[1][0])
       }
   
       puzzleStatus++;
@@ -184,7 +185,7 @@ function Test() {
     };
   
     return (
-      <div className="container">
+      <div className="container4">
         <div className="item">
       
         <Chessground
