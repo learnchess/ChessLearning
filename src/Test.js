@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
 import './Test.css'
-import {Button, Typography} from '@mui/material'
+import {Button, IconButton, Typography} from '@mui/material'
 import Chessground from "@react-chess/chessground";
 import "chessground/assets/chessground.base.css";
 import "chessground/assets/chessground.brown.css";
 import "chessground/assets/chessground.cburnett.css";
 import { Chess, SQUARES } from "chess.js";
+import {DoneOutline, Close} from '@mui/icons-material'
 import Dashboard from './DashboardFolder/Dashboard'
 
 const firstPuzzleFen = "8/5p2/5N2/5p2/1p3P2/3k3p/P2r2r1/3RR2K w - - 3 42";
@@ -13,8 +14,8 @@ const firstPuzzleOrig = "Rg1";
 
 //puzzle 2
 const secondPuzzleFen =
-  "2r3k1/pp2R1bp/2qp1r2/5pN1/5P2/2PQ2PK/P6P/3R4 w - - 1 28";
-const secondPuzzleOrig = "Rde1";
+  "r4rk1/1p3pp1/p2p1n1p/3P4/1P1Q1Bqn/P1N5/2B2PPP/2R1R1K1 w - - 0 1";
+const secondPuzzleOrig = "g3";
 //puzzle 3
 const thirdPuzzleFen =
   "rbb2rk1/1pqn1ppp/p4n2/3B1N2/2P1p3/2N1P3/PPQB1PPP/R4RK1 w - - 0 1";
@@ -29,7 +30,8 @@ let firstRun = 1;
 let incorrectPuzzle=false;
 let numCorrect=0;
 let Choice = ""
-let level = [-1, [-1, -1]]
+let move = 1;
+let level = [-1, -1, [-1, -1]]
 //level[0] is self-assesment
 //level[1] is tactical abilities
 //level[1][0] is checkmates
@@ -47,7 +49,8 @@ function Test() {
     const [showButton1, setShowButton1] = useState(false);
     const [showButton2, setShowButton2] = useState(false);
     const [showNoClueButton, setShowNoClueButton] = useState(true);
-  
+    const [showNextPuzzleMove, setShowNextPuzzleMove] = useState(false);
+    
     const firstPuzzleMove = () => {
       // setTimeout(() => {
       chess.move(origMove);
@@ -69,7 +72,7 @@ function Test() {
     );
     const Button1 = () => (
       <div className="button">
-        <Button variant="contained" onClick={onClickButton1}>
+        <Button variant="contained" color="success" onClick={onClickButton1}>
           Continue
         </Button>
       </div>
@@ -77,7 +80,7 @@ function Test() {
   
     const Button2 = () => (
       <div className="button">
-        <Button variant="contained" onClick={onClickButton2}>
+        <Button variant="contained" color="error" onClick={onClickButton2}>
           Try Again.
         </Button>
       </div>
@@ -85,22 +88,36 @@ function Test() {
     
     const onClickNoClueButton = () => {
 
-      level[1][0] = 0;
-      setShowMateInOne(false);
+      //fill in logic later.
+      setShowTestSet(false);
       setShowNewPlayer(true);
     };
   
     const onClickButton1 = () => {
       if(puzzleStatus!==3) {
+        move=1;
       if (puzzleStatus === 1) {
+        if(incorrectPuzzle===false) {
+          level[2][0]=1;
+        }
+        else {
+          level[2][0]=0;
+        }
         fenNoUpdate = secondPuzzleFen;
         origMove = secondPuzzleOrig;
       } else if (puzzleStatus === 2) {
+        if(incorrectPuzzle===false) {
+          level[2][1]=1;
+        }
+        else {
+          level[2][1]=0;
+        }
         fenNoUpdate = thirdPuzzleFen;
         origMove = thirdPuzzleOrig;
       }
   
       chess.load(fenNoUpdate);
+      //setTimeout
       firstPuzzleMove(origMove);
       if (chess.turn() === "w") {
         orientationColor = "b";
@@ -119,18 +136,10 @@ function Test() {
         if(incorrectPuzzle===false) {
         numCorrect++;
         }
-        if(numCorrect===0) {
-          level[1][0] = 0;
-        }
-        else if(numCorrect===1 || numCorrect===2 ) {
-          level[1][0] = 1;
-         }
-         else if(numCorrect===3) {
-          level[1][0] = 2;
-         }
-         setShowMateInOne(false);
+        level[1]=numCorrect;
+         setShowTestSet(false);
          setShowNewPlayer(true);
-         console.log(level[0] + ' ' + level[1][0])
+         console.log(level)
       }
   
       puzzleStatus++;
@@ -155,6 +164,41 @@ function Test() {
         setShowNoClueButton(false);
       }
     };
+const checkTwoMovePuzzle = (theMove, correctFirstMove, theResponse, correctSecondMove) => {
+  if(move===1) {
+    if(theMove===correctFirstMove) {
+
+       chess.move(theResponse);      
+       fenNoUpdate = chess.fen();
+       move++;
+        setShowNextPuzzleMove(true);
+     }
+     else {
+       setShowButton2(true);
+       setShowNoClueButton(false);
+     }
+   }
+   else if(move===2) {
+    setShowNextPuzzleMove(false);
+     if(theMove===correctSecondMove) {
+       setShowButton1(true);
+       setShowNoClueButton(false);
+     }
+     else {
+       setShowButton2(true);
+       setShowNoClueButton(false);
+     }
+   }
+}
+    // const checkOneMovePuzzle = (NewMove: any, from1: string, to1: string) => {
+//   if(NewMove.from===from1 && NewMove.to===to1) {
+//     setShowButton1(true);
+//   }
+//   else {
+//     setShowButton2(true);
+//   }
+// }
+
   
     const squaros = SQUARES;
     const turnColor = chess.turn() === "w" ? "white" : "black";
@@ -177,7 +221,7 @@ function Test() {
       if (puzzleStatus === 1) {
         checkOneMovePuzzle(newMove.san, "Rh2#");
       } else if (puzzleStatus === 2) {
-        checkOneMovePuzzle(newMove.san, "Rh6#");
+        checkTwoMovePuzzle(newMove.san, "Nf3+", "Kg2", "Nxd4");
       } else if (puzzleStatus === 3) {
         checkOneMovePuzzle(newMove.san, "Qxh2#");
       }
@@ -217,23 +261,23 @@ function Test() {
           />
         </div>
         <div className="button-text">
-          <div className="item">
-          {puzzleStatus===1 ? <div className="introText"><Typography variant="h6">What's the best move in this position? If you have no idea what this is, just click I don't know.</Typography></div> : null }
+      
+          <div className="anItem">
+          
             {turnColor === "w" ? (
               <Typography variant="h3">White To Move</Typography>
             ) : (
               <Typography variant="h3">Black To Move</Typography>
             )}
-          </div>
-  
-          <div>
             {showButton1 ? <Button1 /> : null}
             {showButton2 ? <Button2 /> : null}
             {showNoClueButton ? <NoClueButton /> : null}
-
+            
+            {puzzleStatus===1 && showButton1===false && showButton2===false && incorrectPuzzle===false ? <div className="introText"><Typography variant="h6">What's the best move in this position? If you have no idea what this is, just click I don't know.</Typography></div> : null }
+            {showNextPuzzleMove ? <div className="nextPuzzle"><Typography color="green" variant="h6">Correct! Can you find the next move?</Typography></div> : null}
+          </div>
           </div>
         </div>
-      </div>
     );
   }
 
@@ -260,120 +304,56 @@ function Test() {
     const [showQuestion1, setShowQuestion1] = useState(true);
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [isNewSelected, SetNewSelected] = useState(false);
-    const [isBeginSelected, SetBeginSelected] = useState(false);
-    const [isInterSelected, SetInterSelected] = useState(false);
-    const [isAdvSelected, SetAdvSelected] = useState(false);
+    const [isNotNewSelected, SetNotNewSelected] = useState(false);
     const [runFrame, SetRunFrame] = useState(false);
-    const [showMateInOne, setShowMateInOne] = useState(false);
+    const [showTestSet, setShowTestSet] = useState(false);
     const [showNewPlayer, setShowNewPlayer] = useState(false);
     const [showDashboard, setShowDashboard] = useState(false);
 
-    const Next = () => {
-      if (isNewSelected === true) {
+    const Next = (s) => {
+      if (s==='new') {
         Choice = "new";
         level[0] = 0;
         setShowQuestion1(false);
         setShowNewPlayer(true);
-        setCurrentQuestion(currentQuestion + 1);
-      } else if (isBeginSelected === true) {
-        Choice = "beginner";
+      } else if (s==='not new') {
+        Choice= "not new";
         level[0]=1;
         setShowQuestion1(false);
-        setShowMateInOne(true);
-        setCurrentQuestion(currentQuestion + 1);
-      } else if (isInterSelected) {
-        Choice = "intermediate";
-        level[0]=2;
-        setShowQuestion1(false);
-        setShowMateInOne(true);
-        setCurrentQuestion(currentQuestion + 1);
-      } else if (isAdvSelected) {
-        Choice = "advanced";
-        level[0]=3;
-        setShowQuestion1(false);
-        setShowMateInOne(true);
+        setShowTestSet(true);
         setCurrentQuestion(currentQuestion + 1);
       }
       else {
         alert("please click one of the options")
       }
     };
-  
-    const Select = (s) => {
-      if (s === "new") {
-        SetNewSelected(!isNewSelected);
-        SetBeginSelected(false);
-        SetInterSelected(false);
-        SetAdvSelected(false);
-      } else if (s === "beginner") {
-        SetBeginSelected(!isBeginSelected);
-        SetNewSelected(false);
-        SetInterSelected(false);
-        SetAdvSelected(false);
-      } else if (s === "intermediate") {
-        SetInterSelected(!isInterSelected);
-        SetBeginSelected(false);
-        SetNewSelected(false);
-        SetAdvSelected(false);
-      } else if (s === "advanced") {
-        SetAdvSelected(!isAdvSelected);
-        SetBeginSelected(false);
-        SetInterSelected(false);
-        SetNewSelected(false);
-      }
-    };
 
     const Question = () => {
         return(
 <div className="test">
-    {/* 1. Header */}
-    <h1>Test</h1>
 
     {/* Question Card */}
     <div className="question-card">
-      <h2>Question {currentQuestion + 1} out of 3</h2>
       <h3 className="question-text">
-        How would you best describe your level?
+        Are you new to chess?
       </h3>
-
-      <ul>
-        <li
-          onClick={() => Select("new")}
-          className={isNewSelected ? "selected" : "hello"}
-        >
-          Completely New{" "}
-        </li>
-        <li
-          onClick={() => Select("beginner")}
-          className={isBeginSelected ? "selected" : "hello"}
-        >
-          Beginner
-        </li>
-        <li
-          onClick={() => Select("intermediate")}
-          className={isInterSelected ? "selected" : "hello"}
-        >
-          Intermediate
-        </li>
-        <li
-          onClick={() => Select("advanced")}
-          className={isAdvSelected ? "selected" : "hello"}
-        >
-          Advanced
-        </li>
-      </ul>
-      <Button onClick={Next} variant="contained" className="nextButton">
-        Submit
-      </Button>
+        <div className="button5">
+        <Button color="success" variant="outlined" startIcon={<DoneOutline />} onClick={() => Next("new")}>
+          Yes
+        </Button>
+        <Button color="error" variant="outlined" startIcon={<Close />} onClick={() => Next("not new")}>
+          No
+        </Button>
+        </div>
     </div>
   </div>
         )
     }
 
 return (
-    <div>
+    <div className="page">
     {showQuestion1 ? <Question /> : null }
-    {showMateInOne ? <MateInOne /> : null}
+    {showTestSet ? <MateInOne /> : null}
     {showNewPlayer ? <NewPlayer /> : null}
     {showDashboard ? <Dashboard /> : null}
 

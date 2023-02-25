@@ -1,6 +1,6 @@
 import './AltWelcomePage.css';
 import React from "react";
-import image from './imageOfMe.png';
+import image from './Images/imageOfMe.png';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
 import {Typography} from '@mui/material';

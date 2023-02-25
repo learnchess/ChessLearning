@@ -1,9 +1,9 @@
 import './About.css'
 import {Typography} from '@mui/material'
-import youngImage from './youngImage.png'
-import streetMe from './StreetMe.png'
-import yesuntumur from './yesuntumur.png'
-import SuperStates from './SuperStates.png'
+import youngImage from './Images/youngImage.png'
+import streetMe from './Images/StreetMe.png'
+import yesuntumur from './Images/yesuntumur.png'
+import SuperStates from './Images/SuperStates.png'
 
 function About() {
     return (
