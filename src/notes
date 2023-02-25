@@ -1,0 +1,64 @@
+// const checkOneMovePuzzle = (NewMove: any, from1: string, to1: string) => {
+//   if(NewMove.from===from1 && NewMove.to===to1) {
+//     setShowButton1(true);
+//   }
+//   else {
+//     setShowButton2(true);
+//   }
+// }
+
+// const checkTwoMovePuzzle = (NewMove: any, from1: string, to1: string, from2: string, to2: string, from3: string, to3: string) => {
+//   if(move===1) {
+//     if(NewMove.from===from1 && NewMove.to===to1) {
+//        // setShowButton1(true);
+//        chess.move({from: from2, to: to2});      
+//        fenNoUpdate = chess.fen();
+//        move++;
+//        runThatFrame(!runFrame);
+//      }
+//      else {
+//        setShowButton2(true);
+//      }
+//    }
+//    else if(move===2) {
+//      if(NewMove.from===from3 && NewMove.to===to3) {
+//        setShowButton1(true);
+//      }
+//      else {
+//        setShowButton2(true);
+//      }
+//    }
+// }
+
+// const checkThreeMovePuzzle = (NewMove: any, from1: string, to1: string, from2: string, to2: string, from3: string, to3: string, from4: string, to4: string, from5: string, to5: string) => {
+//   if(move===1) {
+//     if(NewMove.from===from1 && NewMove.to===to1) {
+//        chess.move({from: from2, to: to2});      
+//        fenNoUpdate = chess.fen();
+//        move++;
+//        runThatFrame(!runFrame);
+//      }
+//      else {
+//        setShowButton2(true);
+//      }
+//    }
+//    else if(move===2) {
+//      if(NewMove.from===from3 && NewMove.to===to3) {
+//       chess.move({from: from4, to: to4});      
+//       fenNoUpdate = chess.fen();
+//       move++;
+//       runThatFrame(!runFrame);
+//      }
+//      else {
+//        setShowButton2(true);
+//      }
+//    }
+//    else if(move===3) {
+//     if(NewMove.from===from5 && NewMove.to===to5) {
+//       setShowButton1(true);
+//     }
+//     else {
+//       setShowButton2(true);
+//     }
+//    }
+// }
