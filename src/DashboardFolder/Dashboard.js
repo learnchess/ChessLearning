@@ -1,7 +1,12 @@
-function Dashboard() {
+import {level} from '../Test'
+
+const Dashboard = () => {
+
+let lev=level;
+
 return(
     <div>
-        <h2>Welcome to dashboard!</h2>
+        <h2>{lev}</h2>
     </div>
 )
 }

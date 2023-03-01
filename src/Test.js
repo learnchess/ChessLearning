@@ -7,6 +7,7 @@ import "chessground/assets/chessground.brown.css";
 import "chessground/assets/chessground.cburnett.css";
 import { Chess, SQUARES } from "chess.js";
 import {DoneOutline, Close} from '@mui/icons-material'
+import { useNavigate } from 'react-router-dom'
 import Dashboard from './DashboardFolder/Dashboard'
 
 const firstPuzzleFen = "8/5p2/5N2/5p2/1p3P2/3k3p/P2r2r1/3RR2K w - - 3 42";
@@ -31,13 +32,13 @@ let incorrectPuzzle=false;
 let numCorrect=0;
 let Choice = ""
 let move = 1;
-let level = [-1, -1, [-1, -1]]
+export let level = [-1, -1, [-1, -1]]
 //level[0] is self-assesment
 //level[1] is tactical abilities
 //level[1][0] is checkmates
 //
 
-function Test() {
+export function Test() {
   /* MATE IN ONE SET */
   //
   //
@@ -288,15 +289,15 @@ const checkTwoMovePuzzle = (theMove, correctFirstMove, theResponse, correctSecon
   //
 
   function NewPlayer() {
-
+    const navigate = useNavigate()
     function ClickDashboard() {
-      setShowNewPlayer(false);
-      setShowDashboard(true);
+      navigate('/dashboard')
     }
     return(
     <div>
       <h2>Great, thanks for completing the test! We've got all the info we need, so it's head over to dashboard and start learning!</h2>
     <Button onClick={ClickDashboard}>Dashboard</Button>
+    
     </div>
     )
   }
@@ -361,5 +362,3 @@ return (
 )
 
 }
-
-export default Test;
