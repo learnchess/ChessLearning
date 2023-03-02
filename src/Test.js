@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './Test.css'
-import {Button, IconButton, Typography} from '@mui/material'
+import {Button, IconButton, Typography, ThemeProvider} from '@mui/material'
 import Chessground from "@react-chess/chessground";
 import "chessground/assets/chessground.base.css";
 import "chessground/assets/chessground.brown.css";
@@ -9,6 +9,7 @@ import { Chess, SQUARES } from "chess.js";
 import {DoneOutline, Close} from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
 import Dashboard from './DashboardFolder/Dashboard'
+import theme from './Theme';
 
 const firstPuzzleFen = "8/5p2/5N2/5p2/1p3P2/3k3p/P2r2r1/3RR2K w - - 3 42";
 const firstPuzzleOrig = "Rg1";
@@ -331,23 +332,24 @@ const checkTwoMovePuzzle = (theMove, correctFirstMove, theResponse, correctSecon
 
     const Question = () => {
         return(
-<div className="test">
-
-    {/* Question Card */}
-    <div className="question-card">
-      <h3 className="question-text">
+    <div className="testFirstQuestion">
+      <ThemeProvider theme={theme}>
+      <Typography className="sectionPart" color="greenShades.title" variant="h3">
+        Welcome to ChessMadeBetter!
+      </Typography>
+      <Typography className="sectionPart" color="text.testFirstQuestion" variant="h6">
         Are you new to chess?
-      </h3>
+      </Typography>
         <div className="button5">
-        <Button color="success" variant="outlined" startIcon={<DoneOutline />} onClick={() => Next("new")}>
+        <Button className="sectionPart section2Part" color="success" variant="outlined" startIcon={<DoneOutline />} onClick={() => Next("new")}>
           Yes
         </Button>
-        <Button color="error" variant="outlined" startIcon={<Close />} onClick={() => Next("not new")}>
+        <Button className="sectionPart section2Part" color="error" variant="outlined" startIcon={<Close />} onClick={() => Next("not new")}>
           No
         </Button>
-        </div>
+      </div>
+      </ThemeProvider>
     </div>
-  </div>
         )
     }
 

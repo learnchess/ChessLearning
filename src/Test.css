@@ -1,6 +1,9 @@
 .page {
-    background-color: lightgray;
-    height: 1000px;
+  background-color: #edf0f6;
+  position:fixed;
+  width:100%;
+  height:100%;
+  z-index:1000;
 }
   
 .container4 {
@@ -9,22 +12,26 @@
   padding-top: 20px;
 }
 
-.test {
+.testFirstQuestion {
     text-align: center;
-    padding-top: 100px;
+    padding: 100px;
 }
 
-ul {
-    display: flex;
-        justify-content: center;
-        padding-bottom: 20px;
-        padding: 10px;
+.sectionPart {
+  padding: 10px;
 }
 
 .button5 {
-    display: flex;
-    justify-content: center;
-  }
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 5px;
+  
+}
+
+.section2Part {
+  margin: 5px;
+}
 
   .item5 {
     width: 40px;
