@@ -29,6 +29,19 @@
   
 }
 
+.welc {
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+}
+
+.welcButton {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  
+}
+
 .section2Part {
   margin: 5px;
 }
@@ -51,7 +64,6 @@
 
 .introText {
     width: 250px;
-    background-color: rgb(148, 148, 123);
 }
 
 .nextPuzzle {
