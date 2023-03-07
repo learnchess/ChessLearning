@@ -5,7 +5,9 @@ import theme from "../Theme";
 const Dashboard = () => {
   return (
     <div>
+    
       <ThemeProvider theme={theme}>
+      <h2>{level[0]} + {level[1]} + {level[2]}</h2>
         {level[0] === 0 ? (
           <Typography>You are new to chess.</Typography>
         ) : (

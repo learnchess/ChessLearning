@@ -105,13 +105,16 @@ export function Test() {
         level[2] = [0, 0, 0, 0]
       }
       else if(puzzleStatus===2) {
-        level[2][1, 2, 3] = 0
+        level[2][1] = 0
+        level[2][2] = 0
+        level[2][3] = 0
       }
       else if(puzzleStatus===3) {
-        level[2][2, 3] = 0
+        level[2][2] = 0
+        level[2][3] = 0
       }
       else if(puzzleStatus===4) {
-        level[3] = 0;
+        level[2][3] = 0;
       }
       setShowTestSet(false);
       setShowTestComplete(true);
@@ -119,17 +122,15 @@ export function Test() {
     };
 
     const onClickButton1 = () => {
-      if (incorrectPuzzle === false) {
-        numCorrect++;
-      } else {
-        incorrectPuzzle = false;
-      }
+
       if (puzzleStatus !== 4) {
         move = 1;
         if (puzzleStatus === 1) {
           if (incorrectPuzzle === false) {
             level[2][0] = 1;
+            numCorrect++;
           } else {
+            incorrectPuzzle=false;
             level[2][0] = 0;
           }
           fenNoUpdate = secondPuzzleFen;
@@ -137,8 +138,10 @@ export function Test() {
           orientationColor="black";
         } else if (puzzleStatus === 2) {
           if (incorrectPuzzle === false) {
+            numCorrect++;
             level[2][1] = 1;
           } else {
+            incorrectPuzzle=false;
             level[2][1] = 0;
           }
           fenNoUpdate = thirdPuzzleFen;
@@ -147,9 +150,11 @@ export function Test() {
         }
         else if (puzzleStatus === 3) {
           if (incorrectPuzzle === false) {
+            numCorrect++;
             level[2][2] = 1;
           } else {
             level[2][2] = 0;
+            incorrectPuzzle=false;
           }
           fenNoUpdate=fourthPuzzleFen;
           origMove = fourthPuzzleOrig;
@@ -163,9 +168,11 @@ export function Test() {
       }
       else if(puzzleStatus===4) {
           if (incorrectPuzzle === false) {
+            numCorrect++;
             level[2][3] = 1;
           } else {
             level[2][3] = 0;
+            incorrectPuzzle=false;
           }
         level[1] = numCorrect;
         setShowTestSet(false);
@@ -258,8 +265,8 @@ export function Test() {
         <ThemeProvider theme={theme}>
           <div className="item">
             <Chessground
-              width={700}
-              height={700}
+              width={600}
+              height={600}
               config={{
                 fen: fenNoUpdate,
                 orientation: orientationColor,
@@ -287,7 +294,7 @@ export function Test() {
           </div>
           <div className="button-text">
             <div className="anItem">
-              {turnColor === "w" ? (
+              {orientationColor === "white" ? (
                 <Typography variant="h3" color="greenShades.title">
                   White To Move
                 </Typography>
@@ -334,7 +341,7 @@ export function Test() {
 
   function NewPlayer() {
     const navigate = useNavigate();
-    level = [0, 0, [0, 0]];
+    level = [0, 0, [0, 0, 0, 0]];
     function ClickDashboard() {
       navigate("/dashboard");
     }
