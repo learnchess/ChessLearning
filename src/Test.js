@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-import "./Test.css";
-import { Button, IconButton, Typography, ThemeProvider } from "@mui/material";
-import Chessground from "@react-chess/chessground";
 import "chessground/assets/chessground.base.css";
 import "chessground/assets/chessground.brown.css";
 import "chessground/assets/chessground.cburnett.css";
+import "./Test.css";
+import { Button, IconButton, Typography, ThemeProvider, Stack, Container } from "@mui/material";
+import Chessground from "@react-chess/chessground";
 import { Chess, SQUARES } from "chess.js";
 import { DoneOutline, Close } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import Dashboard from "./DashboardFolder/Dashboard";
 import theme from "./Theme";
+
 
 const firstPuzzleFen = "8/5p2/5N2/5p2/1p3P2/3k3p/P2r2r1/3RR2K w - - 3 42";
 const firstPuzzleOrig = "Rg1";
@@ -50,8 +51,9 @@ export function Test() {
   //
   //
   //
+  const navigate = useNavigate()
 
-  function MateInOne() {
+  function TestSet() {
     const [frame, runFrame] = useState(false);
     const [showButton1, setShowButton1] = useState(false);
     const [showButton2, setShowButton2] = useState(false);
@@ -115,9 +117,10 @@ export function Test() {
       }
       else if(puzzleStatus===4) {
         level[2][3] = 0;
+       navigate("/dashboard")
       }
-      setShowTestSet(false);
-      setShowTestComplete(true);
+      incorrectPuzzle=true;
+      onClickButton1();
 
     };
 
@@ -175,8 +178,7 @@ export function Test() {
             incorrectPuzzle=false;
           }
         level[1] = numCorrect;
-        setShowTestSet(false);
-        setShowTestComplete(true);
+        navigate("/dashboard")
       }
       
 
@@ -264,7 +266,7 @@ export function Test() {
       <div className="container4">
         <ThemeProvider theme={theme}>
           <div className="item">
-            <Chessground
+            <Chessground className="ground"
               width={600}
               height={600}
               config={{
@@ -339,47 +341,26 @@ export function Test() {
   //
   //
 
-  function NewPlayer() {
-    const navigate = useNavigate();
-    level = [0, 0, [0, 0, 0, 0]];
-    function ClickDashboard() {
-      navigate("/dashboard");
-    }
-    return (
-      <div className="welc">
-        <ThemeProvider theme={theme}>
-          <Typography variant="h5" color="text.testFirstQuestion">
-            Great! Welcome to the Chess community! Head over to your dashboard
-            and take a look around.{" "}
-          </Typography>
-          <Button onClick={ClickDashboard} color="success" variant="contained">
-            Dashboard
-          </Button>
-        </ThemeProvider>
-      </div>
-    );
-  }
-
-  function TestComplete() {
-    const navigate = useNavigate();
-    function ClickDashboard() {
-      navigate("/dashboard");
-    }
-    return (
-      <div className="complete">
-        <ThemeProvider theme={theme}>
-          <Typography variant="h5" color="text.testFirstQuestion">
-            Thanks for completing the test! We've got all the info we need to
-            give you personalized instruction, so it's time to head over to your
-            dashboard and take a look around.{" "}
-          </Typography>
-          <Button onClick={ClickDashboard} color="success" variant="contained">
-            Dashboard
-          </Button>
-        </ThemeProvider>
-      </div>
-    );
-  }
+  // function TestComplete() {
+  //   const navigate = useNavigate();
+  //   function ClickDashboard() {
+  //     navigate("/dashboard");
+  //   }
+  //   return (
+  //     <div className="complete">
+  //       <ThemeProvider theme={theme}>
+  //         <Typography variant="h5" color="text.testFirstQuestion">
+  //           Thanks for completing the test! We've got all the info we need to
+  //           give you personalized instruction, so it's time to head over to your
+  //           dashboard and take a look around.{" "}
+  //         </Typography>
+  //         <Button onClick={ClickDashboard} color="success" variant="contained">
+  //           Dashboard
+  //         </Button>
+  //       </ThemeProvider>
+  //     </div>
+  //   );
+  // }
 
   const [showQuestion1, setShowQuestion1] = useState(true);
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -387,16 +368,14 @@ export function Test() {
   const [isNotNewSelected, SetNotNewSelected] = useState(false);
   const [runFrame, SetRunFrame] = useState(false);
   const [showTestSet, setShowTestSet] = useState(false);
-  const [showNewPlayer, setShowNewPlayer] = useState(false);
-  const [showTestComplete, setShowTestComplete] = useState(false);
+  // const [showTestComplete, setShowTestComplete] = useState(false);
   const [showDashboard, setShowDashboard] = useState(false);
 
   const Next = (s) => {
     if (s === "new") {
       Choice = "new";
-      level[0] = 0;
-      setShowQuestion1(false);
-      setShowNewPlayer(true);
+      level = [0, 0, [0, 0, 0, 0]];
+      navigate("/dashboard")
     } else if (s === "not new") {
       Choice = "not new";
       level[0] = 1;
@@ -462,9 +441,8 @@ export function Test() {
   return (
     <div className="page">
       {showQuestion1 ? <Question /> : null}
-      {showTestSet ? <MateInOne /> : null}
-      {showNewPlayer ? <NewPlayer /> : null}
-      {showTestComplete ? <TestComplete /> : null}
+      {showTestSet ? <TestSet /> : null}
+      {/* {showTestComplete ? <TestComplete /> : null} */}
     </div>
   );
 }
